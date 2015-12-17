@@ -27,7 +27,6 @@ public class HeaderImageView extends ImageView {
 
     private Rect rectRectangle;
     private Rect rectOval;
-    private Paint placeHolderPaint;
     private float arcHeight;
     private RectF rectFOval;
     private Paint defaultPaint;
@@ -72,12 +71,7 @@ public class HeaderImageView extends ImageView {
 
         defaultPaint = new Paint();
         defaultPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-
-        placeHolderPaint = new Paint();
-        placeHolderPaint.setAntiAlias(true);
-        placeHolderPaint.setColor(Color.TRANSPARENT);
-        placeHolderPaint.setStyle(Paint.Style.FILL);
-        placeHolderPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        defaultPaint.setStyle(Paint.Style.FILL);
 
         rectFOval = new RectF();
     }
@@ -93,17 +87,22 @@ public class HeaderImageView extends ImageView {
 
         canvas.getClipBounds(rectOval);
         rectFOval.left = rectOval.left - arcHeight;
-        rectFOval.top = rectOval.bottom - (arcHeight * 3) - getPaddingBottom();
+        rectFOval.top = rectOval.top;
         rectFOval.right = rectOval.right + arcHeight;
         rectFOval.bottom = rectOval.bottom - getPaddingBottom();
-        canvas.drawOval(rectFOval, placeHolderPaint);
 
         canvas.getClipBounds(rectRectangle);
-
         rectRectangle.bottom = (int) (rectFOval.top + (rectFOval.height() / 2));
 
-        canvas.drawRect(rectRectangle, placeHolderPaint);
+        defaultPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        canvas.drawBitmap(bitmap, 0, 0, defaultPaint);
 
-        tempCanvas.drawBitmap(bitmap, 0, 0, defaultPaint);
+        canvas.drawRect(rectRectangle, defaultPaint);
+        RectF clipRect = new RectF(rectFOval);
+        clipRect.top = rectRectangle.bottom;
+        canvas.clipRect(clipRect);
+        canvas.drawOval(rectFOval, defaultPaint);
+
+
     }
 }
