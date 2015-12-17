@@ -93,7 +93,7 @@ public class HeaderImageView extends ImageView {
 
         canvas.getClipBounds(rectOval);
         rectFOval.left = rectOval.left - arcHeight;
-        rectFOval.top = rectOval.bottom - arcHeight - getPaddingBottom();
+        rectFOval.top = rectOval.bottom - (arcHeight * 3) - getPaddingBottom();
         rectFOval.right = rectOval.right + arcHeight;
         rectFOval.bottom = rectOval.bottom - getPaddingBottom();
         canvas.drawOval(rectFOval, placeHolderPaint);
