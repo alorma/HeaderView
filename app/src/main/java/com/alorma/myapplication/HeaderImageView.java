@@ -95,14 +95,14 @@ public class HeaderImageView extends ImageView {
         rectRectangle.bottom = (int) (rectFOval.top + (rectFOval.height() / 2));
 
         defaultPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
-        canvas.drawBitmap(bitmap, 0, 0, defaultPaint);
-
-        canvas.drawRect(rectRectangle, defaultPaint);
         RectF clipRect = new RectF(rectFOval);
         clipRect.top = rectRectangle.bottom;
         canvas.clipRect(clipRect);
         canvas.drawOval(rectFOval, defaultPaint);
+        //canvas.clipRect(rectRectangle);
+        canvas.drawRect(rectRectangle, defaultPaint);
 
+        canvas.drawBitmap(bitmap, 0, 0, defaultPaint);
 
     }
 }
