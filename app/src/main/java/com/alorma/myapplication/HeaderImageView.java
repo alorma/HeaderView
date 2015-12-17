@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -26,10 +25,11 @@ public class HeaderImageView extends ImageView {
     private Drawable mask;
     private Bitmap output;
 
-    private Rect rect;
+    private Rect rectRectangle;
+    private Rect rectOval;
     private Paint placeHolderPaint;
     private float arcHeight;
-    private RectF rectF;
+    private RectF rectFOval;
     private Paint defaultPaint;
 
     public HeaderImageView(Context context) {
@@ -67,7 +67,8 @@ public class HeaderImageView extends ImageView {
             }
         }
 
-        rect = new Rect();
+        rectRectangle = new Rect();
+        rectOval = new Rect();
 
         defaultPaint = new Paint();
         defaultPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -78,7 +79,7 @@ public class HeaderImageView extends ImageView {
         placeHolderPaint.setStyle(Paint.Style.FILL);
         placeHolderPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
-        rectF = new RectF();
+        rectFOval = new RectF();
     }
 
     @Override
@@ -90,19 +91,19 @@ public class HeaderImageView extends ImageView {
             super.onDraw(tempCanvas);
         }
 
-        canvas.getClipBounds(rect);
+        canvas.getClipBounds(rectOval);
+        rectFOval.left = rectOval.left - arcHeight;
+        rectFOval.top = rectOval.bottom - arcHeight - getPaddingBottom();
+        rectFOval.right = rectOval.right + arcHeight;
+        rectFOval.bottom = rectOval.bottom - getPaddingBottom();
+        tempCanvas.drawOval(rectFOval, placeHolderPaint);
 
-        rectF.left = rect.left - (arcHeight * 2);
-        rectF.top = rect.bottom - (arcHeight * 4) - getPaddingBottom();
-        rectF.right = rect.right + (arcHeight * 2);
-        rectF.bottom = rect.bottom - getPaddingBottom();
+        canvas.getClipBounds(rectRectangle);
 
+        rectRectangle.bottom = (int) (rectFOval.top + (rectFOval.height() / 2));
 
-        RectF rectf2 = new RectF(rectF);
-        rectf2.top = rectF.centerY();
+        tempCanvas.drawRect(rectRectangle, placeHolderPaint);
 
-        tempCanvas.clipRect(rectf2);
-        tempCanvas.drawOval(rectF, placeHolderPaint);
         canvas.drawBitmap(bitmap, 0, 0, defaultPaint);
     }
 }
