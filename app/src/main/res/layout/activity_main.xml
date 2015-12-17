@@ -12,7 +12,6 @@
         android:layout_height="220dp"
         android:scaleType="fitXY"
         android:src="@drawable/flor"
-        android:paddingBottom="40dp"
         app:arcHeight="64dp"
         android:fitsSystemWindows="true"/>
 </LinearLayout>

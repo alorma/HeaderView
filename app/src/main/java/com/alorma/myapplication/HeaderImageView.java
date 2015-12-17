@@ -92,17 +92,17 @@ public class HeaderImageView extends ImageView {
         rectFOval.bottom = rectOval.bottom - getPaddingBottom();
 
         canvas.getClipBounds(rectRectangle);
-        rectRectangle.bottom = (int) (rectFOval.top + (rectFOval.height() / 2));
+        rectRectangle.bottom = rectOval.centerY();
 
         defaultPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
-        RectF clipRect = new RectF(rectFOval);
-        clipRect.top = rectRectangle.bottom;
-        canvas.clipRect(clipRect);
-        canvas.drawOval(rectFOval, defaultPaint);
-        //canvas.clipRect(rectRectangle);
         canvas.drawRect(rectRectangle, defaultPaint);
+        canvas.save();
+        RectF rectFOvalHalf =  new RectF(rectFOval);
+        rectFOvalHalf.top = rectFOval.centerY();
+        canvas.clipRect(rectFOvalHalf);
+        canvas.drawOval(rectFOval, defaultPaint);
+        canvas.restore();
 
         canvas.drawBitmap(bitmap, 0, 0, defaultPaint);
-
     }
 }
