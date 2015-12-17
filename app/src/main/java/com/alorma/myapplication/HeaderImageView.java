@@ -76,7 +76,7 @@ public class HeaderImageView extends ImageView {
         placeHolderPaint.setAntiAlias(true);
         placeHolderPaint.setColor(Color.TRANSPARENT);
         placeHolderPaint.setStyle(Paint.Style.FILL);
-        placeHolderPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.XOR));
+        placeHolderPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
         rectF = new RectF();
     }
