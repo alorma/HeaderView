@@ -78,12 +78,12 @@ public class HeaderImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         Bitmap bitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas tempCanvas = new Canvas(bitmap);
         if (getDrawable() != null) {
             super.onDraw(tempCanvas);
         }
+
 
         canvas.getClipBounds(rectOval);
         rectFOval.left = rectOval.left - arcHeight;
@@ -94,15 +94,19 @@ public class HeaderImageView extends ImageView {
         canvas.getClipBounds(rectRectangle);
         rectRectangle.bottom = rectOval.centerY();
 
-        defaultPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
-        canvas.drawRect(rectRectangle, defaultPaint);
+        defaultPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
         canvas.save();
-        RectF rectFOvalHalf =  new RectF(rectFOval);
+        canvas.drawRect(rectRectangle, defaultPaint);
+
+        RectF rectFOvalHalf = new RectF(rectFOval);
         rectFOvalHalf.top = rectFOval.centerY();
         canvas.clipRect(rectFOvalHalf);
+
         canvas.drawOval(rectFOval, defaultPaint);
         canvas.restore();
 
+        defaultPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_ATOP));
         canvas.drawBitmap(bitmap, 0, 0, defaultPaint);
     }
 }
