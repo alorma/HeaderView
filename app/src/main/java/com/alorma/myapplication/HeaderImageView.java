@@ -96,14 +96,14 @@ public class HeaderImageView extends ImageView {
         rectFOval.top = rectOval.bottom - arcHeight - getPaddingBottom();
         rectFOval.right = rectOval.right + arcHeight;
         rectFOval.bottom = rectOval.bottom - getPaddingBottom();
-        tempCanvas.drawOval(rectFOval, placeHolderPaint);
+        canvas.drawOval(rectFOval, placeHolderPaint);
 
         canvas.getClipBounds(rectRectangle);
 
         rectRectangle.bottom = (int) (rectFOval.top + (rectFOval.height() / 2));
 
-        tempCanvas.drawRect(rectRectangle, placeHolderPaint);
+        canvas.drawRect(rectRectangle, placeHolderPaint);
 
-        canvas.drawBitmap(bitmap, 0, 0, defaultPaint);
+        tempCanvas.drawBitmap(bitmap, 0, 0, defaultPaint);
     }
 }
